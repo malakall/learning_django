@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Главная страница уоууу</title>
+</head>
+<body>
+    {% include "main/includes/header.html" %}  <!-- Подключаем header -->
+
+    <p>Мой сайт лооо</p>
+
+    <a href="/orders/">тык на заказы</a>
+
+    <h2>Список групп:</h2>
+    <ul>
+        {% for group in groups %}
+            <li>
+                <h3>{{ group.name }}</h3>
+                <p>{{ group.description }}</p>
+                {% if group.user == request.user %}
+                    <a href="{% url 'delete_group' group.id %}">Удалить</a>
+                {% endif %}
+
+            </li>
+        {% endfor %}
+    </ul>
+
+    <h2>Добавить новую группу</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Добавить</button>
+    </form>
+
+</body>
+</html>
