@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>форма тут</title>
+</head>
+<body>
+    <h1>Формочка</h1>
+    <div>
+        {% for cont in contacts %}
+            <li>
+                <h3>{{ cont.name }}</h3>
+                <h3>{{ cont.email }}</h3>
+                <h3>{{ cont.text }}</h3>
+            </li>
+        {% endfor %}
+    </div>
+
+    <h1>Форма обратной связи</h1>
+
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Отправить</button>
+    </form>
+
+</body>

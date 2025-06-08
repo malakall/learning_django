@@ -28,6 +28,13 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 
+#   ЧТО БЫ СООБЩЕНИЯ ПРИ ПОПЫТКЕ ПОМЕНЯТ ЬПАРОЛЬ СОЪХРАНЯЛИСЬ В ДИРЕКТОРИЮ sent_email
+import os
+#  подключаем движок filebased.EmailBackend
+EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
+# указываем директорию, в которую будут складываться файлы писем
+EMAIL_FILE_PATH = os.path.join(BASE_DIR, 'sent_emails') 
+
 
 LOGIN_REDIRECT_URL = "/"  # Куда редиректить после входа
 LOGOUT_REDIRECT_URL = "/"  # Куда редиректить после выхода

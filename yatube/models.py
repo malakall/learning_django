@@ -9,3 +9,13 @@ class Group(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class Contact(models.Model):
+    name = models.CharField(max_length=100, verbose_name="ваше имя")
+    email = models.CharField(max_length=30, verbose_name="ваш email")
+    text = models.TextField(verbose_name="текст обращения")
+
+    def __str__(self):
+        return self.name
+    

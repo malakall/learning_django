@@ -56,3 +56,17 @@ def register(request):
         form = RegisterForm()
     return render(request, "registration/register.html", {"form": form})
 
+
+
+from .forms import ContactForm
+
+def send_form(request):
+    if request.method == 'POST':
+        form = ContactForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('send_form')  
+    else:
+        form = ContactForm()
+
+    return render(request, 'main/forms.html', {'form': form})
