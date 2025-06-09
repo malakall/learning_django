@@ -14,18 +14,37 @@
 
     <h2>Список групп:</h2>
     <ul>
-        {% for group in groups %}
-            <li>
-                <h3>{{ group.name }}</h3>
-                <p>{{ group.description }}</p>
-                {% if group.user == request.user %}
-                    <a href="{% url 'delete_group' group.id %}">Удалить</a>
-                {% endif %}
+    {% for group in groups %}
+        <li>
+            <h3>{{ group.name }}</h3>
+            <p>{{ group.description }}</p>
+            <p>{{ group.user_name }}</p>
+            {% if group.user == request.user %}
+                <a href="{% url 'delete_group' group.id %}">Удалить</a>
+            {% endif %}
+        </li>
+    {% endfor %}
+</ul>
 
-            </li>
-        {% endfor %}
-    </ul>
+<!-- Paginator-->
+<div class="pagination">
+    <span class="step-links">
+        {% if groups.has_previous %}
+            <a href="?page=1">&laquo; первая</a>
+            <a href="?page={{ groups.previous_page_number }}">предыдущая</a>
+        {% endif %}
 
+        <span class="current">
+            Страница {{ groups.number }} из {{ groups.paginator.num_pages }}.
+        </span>
+
+        {% if groups.has_next %}
+            <a href="?page={{ groups.next_page_number }}">следующая</a>
+            <a href="?page={{ groups.paginator.num_pages }}">последняя &raquo;</a>
+        {% endif %}
+    </span>
+</div>
+    {% if user.is_authenticated %}
     <h2>Добавить новую группу</h2>
     <form method="post">
         {% csrf_token %}
@@ -37,7 +56,7 @@
         <h5>
             <a href="/forms/">отправить отзыв</a>
         </h5>
+    {% endif %}
     </div>
-
 </body>
 </html>

@@ -4,22 +4,29 @@ from .forms import RegisterForm
 from django.contrib.auth import login
 
 from .forms import GroupForm
+from django.core.paginator import Paginator
+
 
 def index(request):
-    groups = Group.objects.all()
-    # groups = Group.objects.filter(name__startswith="т") # работа с орм вытаскиваем данные который начинаются только на буквку "т"
+    groups_list = Group.objects.all()
+
+    paginator = Paginator(groups_list, 2) 
+
+    page_number = request.GET.get('page')
+    groups = paginator.get_page(page_number)
 
     if request.method == "POST":
         form = GroupForm(request.POST)
         if form.is_valid():
             group = form.save(commit=False)
-            group.user = request.user  # связываем с текущим пользователем
+            group.user = request.user
             group.save()
             return redirect('index')
     else:
         form = GroupForm()
 
     return render(request, "main/index.html", {"groups": groups, "form": form})
+
 
 
 from django.shortcuts import get_object_or_404
@@ -59,14 +66,20 @@ def register(request):
 
 
 from .forms import ContactForm
+from django.contrib.auth.decorators import login_required
 
 def send_form(request):
     if request.method == 'POST':
         form = ContactForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('send_form')  
+            return redirect('sucsess_form')  
     else:
         form = ContactForm()
 
     return render(request, 'main/forms.html', {'form': form})
+
+
+
+def sucsess_form(request):
+    return render(request, "main/sucsess_form.html")

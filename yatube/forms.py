@@ -23,7 +23,7 @@ from .models import Group
 class GroupForm(forms.ModelForm):
     class Meta:
         model = Group
-        fields = ['name', 'description']
+        fields = ['name', 'description', 'user_name']
 
 
 from .models import Contact
@@ -32,6 +32,14 @@ class ContactForm(forms.ModelForm):
     class Meta:
         model = Contact
         fields = ["name", "email", "text"]
+
+# Проверяем, есть ли в тексте слово "спасибо"
+    def clean_text(self):
+        data = self.cleaned_data['text'].lower()
+        gratitude_words = ['спасибо', 'благодарю', 'спасибки']
+        if not any(word in data for word in gratitude_words):
+            raise forms.ValidationError('Пожалуйста, используйте слова благодарности в сообщении!')
+        return data
 
 
 
