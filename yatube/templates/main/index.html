@@ -11,6 +11,12 @@
     <p>Мой сайт лооо</p>
 
     <a href="/orders/">тык на заказы</a>
+    
+    <form method="get" action="{% url 'index' %}">
+    <input type="text" name="author" placeholder="Введите имя автора" value="{{ request.GET.author }}">
+    <button type="submit">Поиск</button>
+    </form>
+
 
     <h2>Список групп:</h2>
     <ul>
@@ -30,8 +36,8 @@
 <div class="pagination">
     <span class="step-links">
         {% if groups.has_previous %}
-            <a href="?page=1">&laquo; первая</a>
-            <a href="?page={{ groups.previous_page_number }}">предыдущая</a>
+            <a href="?page=1{% if request.GET.author %}&author={{ request.GET.author }}{% endif %}">&laquo; первая</a>
+            <a href="?page={{ groups.previous_page_number }}{% if request.GET.author %}&author={{ request.GET.author }}{% endif %}">предыдущая</a>
         {% endif %}
 
         <span class="current">
@@ -39,10 +45,11 @@
         </span>
 
         {% if groups.has_next %}
-            <a href="?page={{ groups.next_page_number }}">следующая</a>
-            <a href="?page={{ groups.paginator.num_pages }}">последняя &raquo;</a>
+            <a href="?page={{ groups.next_page_number }}{% if request.GET.author %}&author={{ request.GET.author }}{% endif %}">следующая</a>
+            <a href="?page={{ groups.paginator.num_pages }}{% if request.GET.author %}&author={{ request.GET.author }}{% endif %}">последняя &raquo;</a>
         {% endif %}
     </span>
+</div>
 </div>
     {% if user.is_authenticated %}
     <h2>Добавить новую группу</h2>

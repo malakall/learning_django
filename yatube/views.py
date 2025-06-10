@@ -9,9 +9,13 @@ from django.core.paginator import Paginator
 
 def index(request):
     groups_list = Group.objects.all()
+    author = request.GET.get('author')
+    if author:
+        # Фильтруем группы по user_name, содержащему введённый текст (регистронезависимо)
+        groups_list = groups_list.filter(user_name__icontains=author)
+
 
     paginator = Paginator(groups_list, 2) 
-
     page_number = request.GET.get('page')
     groups = paginator.get_page(page_number)
 
@@ -44,6 +48,7 @@ def delete_group(request, group_id):
     return render(request, "main/confirm_delete.html", {"group": group})
 
 
+
 def about(request):
     return render(request, "main/about.html")
 
@@ -58,7 +63,7 @@ def register(request):
             user.set_password(form.cleaned_data["password"])
             user.save()
             login(request, user)  # Автоматически логиним пользователя после регистрации
-            return redirect("index")  # Меняем на главную страницу
+            return redirect("index")
     else:
         form = RegisterForm()
     return render(request, "registration/register.html", {"form": form})
