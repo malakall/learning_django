@@ -31,6 +31,24 @@ def index(request):
 
     return render(request, "main/index.html", {"groups": groups, "form": form})
 
+from django.shortcuts import get_object_or_404
+from django.contrib.auth.decorators import login_required
+@login_required
+def edit_group(request, group_id):
+    group = get_object_or_404(Group, id=group_id)
+
+
+    if request.method == 'POST':
+        form = GroupForm(request.POST, instance=group)
+        if form.is_valid():
+            form.save()
+            return redirect('index')
+    else:
+        form = GroupForm(instance=group)
+
+    return render(request, 'main/edit_group.html', {'form': form, 'group': group})
+
+
 
 
 from django.shortcuts import get_object_or_404
@@ -47,6 +65,9 @@ def delete_group(request, group_id):
         return redirect('index')
     return render(request, "main/confirm_delete.html", {"group": group})
 
+
+def change_data_group(request):
+    return render(request, "main/change_data_group.html")
 
 
 def about(request):

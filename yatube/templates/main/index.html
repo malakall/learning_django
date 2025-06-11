@@ -27,6 +27,9 @@
             <p>{{ group.user_name }}</p>
             {% if group.user == request.user %}
                 <a href="{% url 'delete_group' group.id %}">Удалить</a>
+                <p>
+                    <a href="{% url 'edit_group' group.id %}">изменить форму</a>
+                </p>
             {% endif %}
         </li>
     {% endfor %}
@@ -61,7 +64,7 @@
 
     <div>
         <h5>
-            <a href="/forms/">отправить отзыв</a>
+            <a href="{% url 'send_form' %}">отправить отзыв</a>
         </h5>
     {% endif %}
     </div>

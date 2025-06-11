@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Редактировать группу</title>
+</head>
+<body>
+    <h1>Редактировать группу: {{ group.name }}</h1>
+
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Сохранить изменения</button>
+    </form>
+
+    <p><a href="{% url 'index' %}">Назад к списку групп</a></p>
+</body>
+</html>
