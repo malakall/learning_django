@@ -44,6 +44,7 @@ LOGIN_URL = "/login/"  # Страница логина
 # Application definition
 
 INSTALLED_APPS = [
+    'core',
     'yatube',
     'django.contrib.admin',
     'django.contrib.auth',

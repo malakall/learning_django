@@ -33,6 +33,7 @@ def index(request):
 
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.decorators import login_required
+
 @login_required
 def edit_group(request, group_id):
     group = get_object_or_404(Group, id=group_id)
@@ -94,6 +95,7 @@ def register(request):
 from .forms import ContactForm
 from django.contrib.auth.decorators import login_required
 
+@login_required
 def send_form(request):
     if request.method == 'POST':
         form = ContactForm(request.POST)
