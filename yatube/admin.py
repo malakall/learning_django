@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Group, Contact
+from .models import Group, Contact, Comment
 
 @admin.register(Group)
 class GroupAdmin(admin.ModelAdmin):
@@ -9,3 +9,8 @@ class GroupAdmin(admin.ModelAdmin):
 @admin.register(Contact)
 class ContactAdmin(admin.ModelAdmin):
     list_display = ("name", "email", "text")
+
+
+@admin.register(Comment)
+class CommentAdmin(admin.ModelAdmin):
+    list_display = ('post', 'text', 'created')

@@ -65,3 +65,5 @@ class IndexPaginationTests(TestCase):
         response = self.client.get(reverse('index') + '?page=3')
         self.assertEqual(response.status_code, 200)
         self.assertEqual(len(response.context['groups']), 1)
+
+

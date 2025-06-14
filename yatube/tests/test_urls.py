@@ -48,3 +48,32 @@ class StaticURLTests(TestCase):
         # это список всех шаблонов, фактически использованных при рендеринге.
         template_names = [t.name for t in response.templates]
         self.assertIn('core/404.html', template_names)
+
+
+
+from ..models import Comment, Group
+
+class CommentsTest(TestCase):
+    def setUp(self):
+        self.client = Client()
+        self.authorized_client = Client()
+        self.user = User.objects.create_user(username="ksnjd", password="121212")
+        self.authorized_client.force_login(self.user)
+
+        self.group = Group.objects.create(
+            name="Test Group",
+            description="Test description",
+            user_name="ksnjd",
+            user=self.user
+        )
+
+    def test_comments_post_auth(self):
+        url = f"/group/{self.group.id}/"
+        response = self.authorized_client.get(url) 
+        self.assertEqual(response.status_code, 200)
+
+    
+    def test_comments_post_non_auth(self):
+        url = f"/group/{self.group.id}/"
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 302)

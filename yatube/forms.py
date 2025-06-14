@@ -18,12 +18,20 @@ class RegisterForm(forms.ModelForm):
 
 
 
-from .models import Group
+from .models import Group, Comment
 
 class GroupForm(forms.ModelForm):
     class Meta:
         model = Group
         fields = ['name', 'description','user_name', 'image']
+
+
+
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields = ['text']
+
 
 
 from .models import Contact

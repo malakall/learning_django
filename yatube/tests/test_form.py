@@ -69,4 +69,30 @@ class PostCreateFormTests(TestCase):
         self.assertEqual(group.description, "Description for new group")
 
 
+from ..models import Comment, Group
+
+class CommetsTest(TestCase):
+    def setUp(self):
+        self.client = Client()
+        self.authorized_client = Client()
+        self.user = User.objects.create_user(username="kdljf", password="323232")
+        self.authorized_client.force_login(self.user)
+
+        self.group = Group.objects.create(
+            name="Test Group",
+            description="Test description",
+            user_name="artem",
+            user=self.user         
+        )
+
+        self.comment_count = Comment.objects.count()
+
+    def test_comment_created(self):
+        response = self.authorized_client.post(
+            reverse('group_detail', kwargs={'group_id': self.group.pk}), 
+            data={'text': 'Новый комментарий'}
+        )
+
+        self.assertEqual(Comment.objects.count(), self.comment_count + 1)
+        self.assertRedirects(response, reverse('group_detail', kwargs={'group_id': self.group.pk}))
 

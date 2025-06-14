@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ group.name }}</title>
+</head>
+<body>
+    <h1>{{ group.name }}</h1>
+    <p>{{ group.description }}</p>
+    <p>Автор: {{ group.user_name }}</p>
+    {% if group.image %}
+        <img src="{{ group.image.url }}" alt="Фото группы" width="300">
+    {% endif %}
+
+    <h2>Комментарии</h2>
+    <ul>
+        {% for comment in comments %}
+            <li>
+                <strong>{{ comment.author.username }}</strong> ({{ comment.created|date:"d.m.Y H:i" }}):<br>
+                {{ comment.text }}
+
+                {% if comment.author == user %}
+                    <p>
+                        <a href="{% url 'edit_comment' comment.id %}">Редактировать</a> |
+                        <a href="{% url 'delete_comment' comment.id %}">Удалить</a>
+                    </p>
+                {% endif %}
+            </li>
+        {% empty %}
+            <li>Пока нет комментариев.</li>
+        {% endfor %}
+    </ul>
+
+        {% if comment.author == user %}
+            <p>
+                <a href="{% url 'edit_comment' comment.id %}">Редактировать</a> |
+                <a href="{% url 'delete_comment' comment.id %}">Удалить</a>
+            </p>
+        {% endif %}
+
+    {% if user.is_authenticated %}
+        <h3>Добавить комментарий</h3>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Отправить</button>
+        </form>
+    {% else %}
+        <p><a href="{% url 'login' %}">Войдите</a>, чтобы добавить комментарий.</p>
+    {% endif %}
+
+    <p><a href="{% url 'index' %}">Назад к списку групп</a></p>
+</body>
+</html>

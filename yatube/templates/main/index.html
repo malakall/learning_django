@@ -28,6 +28,9 @@
             {% if group.image %}
             <img src="{{ group.image.url }}" alt="Фото группы" width="300">
             {% endif %}
+            <h3>
+                <a href="{% url 'group_detail' group.id %}">комментарии</a>
+            </h3>
             {% if group.user == request.user %}
                 <a href="{% url 'delete_group' group.id %}">Удалить</a>
                 <p>

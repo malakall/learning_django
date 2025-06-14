@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>удалить коммметарий</title>
+</head>
+<body>
+    <h2>Удалить комментарий?</h2>
+    <p>Вы уверены, что хотите удалить этот комментарий?</p>
+    <p>{{ comment.text }}</p>
+
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit">Удалить</button>
+        <a href="{% url 'group_detail' comment.post.id %}">Отмена</a>
+    </form>
+</body>
+</html>

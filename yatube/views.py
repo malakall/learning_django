@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .models import Group  # Импортируем модель групп
+from .models import Group, Comment 
 from .forms import RegisterForm
 from django.contrib.auth import login
 
@@ -33,6 +33,7 @@ def index(request):
 
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.decorators import login_required
+from django.core.exceptions import PermissionDenied
 
 @login_required
 def edit_group(request, group_id):
@@ -51,12 +52,6 @@ def edit_group(request, group_id):
     return render(request, 'main/edit_group.html', {'form': form, 'group': group})
 
 
-
-
-from django.shortcuts import get_object_or_404
-from django.contrib.auth.decorators import login_required
-from django.core.exceptions import PermissionDenied
-
 @login_required
 def delete_group(request, group_id):
     group = get_object_or_404(Group, id=group_id)
@@ -66,6 +61,70 @@ def delete_group(request, group_id):
         group.delete()
         return redirect('index')
     return render(request, "main/confirm_delete.html", {"group": group})
+
+
+from .forms import CommentForm
+from .models import Comment
+
+@login_required
+def group_detail(request, group_id):
+    group = get_object_or_404(Group, id=group_id)
+    comments = group.comments.all().order_by('-created')  # последние сверху
+
+    if request.method == 'POST':
+        if not request.user.is_authenticated:
+            return redirect('login') 
+
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.post = group
+            comment.author = request.user
+            comment.save()
+            return redirect('group_detail', group_id=group.id)
+    else:
+        form = CommentForm()
+
+    context = {
+        'group': group,
+        'comments': comments,
+        'form': form,
+    }
+    return render(request, 'main/group_detail.html', context)
+
+
+@login_required
+def edit_comment(request, comment_id):
+    comment = get_object_or_404(Comment, id=comment_id)
+
+    if comment.author != request.user:
+        raise PermissionDenied
+
+    if request.method == 'POST':
+        form = CommentForm(request.POST, instance=comment)
+        if form.is_valid():
+            form.save()
+            return redirect('group_detail', group_id=comment.post.id)
+    else:
+        form = CommentForm(instance=comment)
+
+    return render(request, 'main/edit_comment.html', {'form': form, 'comment': comment})
+
+
+@login_required
+def delete_comment(request, comment_id):
+    comment = get_object_or_404(Comment, id=comment_id)
+
+    if comment.author != request.user:
+        raise PermissionDenied
+
+    if request.method == 'POST':
+        group_id = comment.post.id
+        comment.delete()
+        return redirect('group_detail', group_id=group_id)
+
+    return render(request, 'main/confirm_delete_comment.html', {'comment': comment})
+
 
 
 def change_data_group(request):

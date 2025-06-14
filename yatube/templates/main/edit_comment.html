@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Редактировать коммметарий</title>
+</head>
+<body>
+    <h1>Редактировать комеентраий: {{ comment.name }}</h1>
+
+    <h2>Редактировать комментарий</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Сохранить</button>
+    </form>
+    <p><a href="{% url 'group_detail' comment.post.id %}">Назад к группе</a></p>
+
+</body>
+</html>
