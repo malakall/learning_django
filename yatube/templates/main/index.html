@@ -25,6 +25,9 @@
             <h3>{{ group.name }}</h3>
             <p>{{ group.description }}</p>
             <p>{{ group.user_name }}</p>
+            {% if group.image %}
+            <img src="{{ group.image.url }}" alt="Фото группы" width="300">
+            {% endif %}
             {% if group.user == request.user %}
                 <a href="{% url 'delete_group' group.id %}">Удалить</a>
                 <p>
@@ -56,7 +59,7 @@
 </div>
     {% if user.is_authenticated %}
     <h2>Добавить новую группу</h2>
-    <form method="post">
+    <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
         {{ form.as_p }}
         <button type="submit">Добавить</button>

@@ -20,7 +20,7 @@ def index(request):
     groups = paginator.get_page(page_number)
 
     if request.method == "POST":
-        form = GroupForm(request.POST)
+        form = GroupForm(request.POST, request.FILES)
         if form.is_valid():
             group = form.save(commit=False)
             group.user = request.user
@@ -40,7 +40,8 @@ def edit_group(request, group_id):
 
 
     if request.method == 'POST':
-        form = GroupForm(request.POST, instance=group)
+        form = GroupForm(request.POST, request.FILES, instance=group)
+
         if form.is_valid():
             form.save()
             return redirect('index')

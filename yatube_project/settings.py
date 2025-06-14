@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-ky!k3rr#m%yx5$bt59dbhtisg%&cn8hzmxc6z7_kakemsw5gv+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 #   ЧТО БЫ СООБЩЕНИЯ ПРИ ПОПЫТКЕ ПОМЕНЯТ ЬПАРОЛЬ СОЪХРАНЯЛИСЬ В ДИРЕКТОРИЮ sent_email
@@ -39,6 +39,10 @@ EMAIL_FILE_PATH = os.path.join(BASE_DIR, 'sent_emails')
 LOGIN_REDIRECT_URL = "/"  # Куда редиректить после входа
 LOGOUT_REDIRECT_URL = "/"  # Куда редиректить после выхода
 LOGIN_URL = "/login/"  # Страница логина
+
+# куда загружать фотки, картинки добавоенные пользователем
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media') 
 
 
 # Application definition

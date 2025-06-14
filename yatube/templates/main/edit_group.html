@@ -7,7 +7,7 @@
 <body>
     <h1>Редактировать группу: {{ group.name }}</h1>
 
-    <form method="post">
+    <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
         {{ form.as_p }}
         <button type="submit">Сохранить изменения</button>

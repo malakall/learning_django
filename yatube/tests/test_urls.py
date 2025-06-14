@@ -38,4 +38,13 @@ class StaticURLTests(TestCase):
 
         response2 = self.client.get("/forms/")
         self.assertEqual(response2.status_code, 302, "только для авторизовынных !")
+    
+    # тест страницы которая не существует
+    def test_non_exists_page(self):
+        response = self.client.get("/edjf")
 
+        self.assertEqual(response.status_code, 404, "страница должна быть не найден")
+
+        # это список всех шаблонов, фактически использованных при рендеринге.
+        template_names = [t.name for t in response.templates]
+        self.assertIn('core/404.html', template_names)

@@ -7,6 +7,7 @@ class Group(models.Model):
     name = models.CharField(max_length=100, unique=True)
     description = models.TextField()
     user_name = models.CharField(max_length=15)
+    image = models.ImageField(upload_to='posts/', blank=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)  # автор записи
     
 

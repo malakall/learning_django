@@ -3,7 +3,7 @@ from .models import Group, Contact
 
 @admin.register(Group)
 class GroupAdmin(admin.ModelAdmin):
-    list_display = ("name", "description", "user_name")
+    list_display = ("name", "description", "image","user_name")
 
 
 @admin.register(Contact)

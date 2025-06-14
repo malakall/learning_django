@@ -23,7 +23,7 @@ from .models import Group
 class GroupForm(forms.ModelForm):
     class Meta:
         model = Group
-        fields = ['name', 'description', 'user_name']
+        fields = ['name', 'description','user_name', 'image']
 
 
 from .models import Contact
