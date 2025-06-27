@@ -1,0 +1,41 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>О нас</title>
+  <link rel="stylesheet" href="{% static 'yatube/css/styles.css' %}">
+</head>
+<body>
+  <header>
+    <h1>О нас</h1>
+    <nav>
+      <a href="/">Назад</a>
+      <a href="/orders/">Заказы</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <p class="intro">Мы — команда, которая любит простоту, честность и сырки //</p>
+    
+    <section>
+      <h2>Кто мы?</h2>
+      <p>Мы создали этот проект, чтобы делать повседневные задачи чуть удобнее и веселее. Нам важно качество, удобство и дружелюбие во всём — от интерфейса до поддержки.</p>
+    </section>
+
+    <section>
+      <h2>Что мы делаем?</h2>
+      <p>Мы развиваем сервис, который помогает людям заказывать и отслеживать нужные им вещи легко и без лишнего шума. Каждый заказ — как сырок: хочется, чтобы был свежий, вкусный и доставлен вовремя.</p>
+    </section>
+
+    <div class="back-button">
+      <a href="/" class="button">На главную</a>
+    </div>
+  </main>
+
+  <footer>
+    &copy; 2025 Наш проект. Все права защищены.
+  </footer>
+</body>
+</html>

@@ -1,0 +1,24 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Удалить комментарий</title>
+  <link rel="stylesheet" href="{% static 'yatube/css/styles.css' %}">
+</head>
+<body>
+  <main class="container">
+    <h2>Удалить комментарий?</h2>
+    <p class="intro">Вы уверены, что хотите удалить этот комментарий?</p>
+    <div class="contact-item">
+      <p>{{ comment.text }}</p>
+    </div>
+
+    <form method="post">
+      {% csrf_token %}
+      <button type="submit" class="button danger">Удалить</button>
+      <a href="{% url 'group_detail' comment.post.id %}" class="button secondary">Отмена</a>
+    </form>
+  </main>
+</body>
+</html>

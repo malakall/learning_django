@@ -1,0 +1,23 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Редактировать группу</title>
+  <link rel="stylesheet" href="{% static 'yatube/css/styles.css' %}">
+</head>
+<body>
+  <main class="container">
+    <h1>Редактировать группу: {{ group.name }}</h1>
+    <form method="post" enctype="multipart/form-data" class="add-form">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit" class="button primary">Сохранить изменения</button>
+    </form>
+
+    <div class="back-button">
+      <a href="{% url 'index' %}" class="button secondary">Назад к списку групп</a>
+    </div>
+  </main>
+</body>
+</html>

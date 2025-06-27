@@ -1,0 +1,52 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>{{ group.name }}</title>
+  <link rel="stylesheet" href="{% static 'yatube/css/styles.css' %}">
+</head>
+<body>
+  <main class="container">
+    <h1>{{ group.name }}</h1>
+    <p class="intro">{{ group.description }}</p>
+    <p><strong>Автор:</strong> {{ group.user_name }}</p>
+    {% if group.image %}
+      <img src="{{ group.image.url }}" alt="Фото группы" width="300">
+    {% endif %}
+
+    <h2>Комментарии</h2>
+    <ul class="contact-list">
+      {% for comment in comments %}
+        <li class="contact-item">
+          <strong>{{ comment.author.username }}</strong> ({{ comment.created|date:"d.m.Y H:i" }}):<br>
+          {{ comment.text }}
+          {% if comment.author == user %}
+            <div class="button-group">
+              <a href="{% url 'edit_comment' comment.id %}" class="button warning">Редактировать</a>
+              <a href="{% url 'delete_comment' comment.id %}" class="button danger">Удалить</a>
+            </div>
+          {% endif %}
+        </li>
+      {% empty %}
+        <li>Пока нет комментариев.</li>
+      {% endfor %}
+    </ul>
+
+    {% if user.is_authenticated %}
+      <h3>Добавить комментарий</h3>
+      <form method="post" class="contact-form">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="button primary">Отправить</button>
+      </form>
+    {% else %}
+      <p><a href="{% url 'login' %}">Войдите</a>, чтобы добавить комментарий.</p>
+    {% endif %}
+
+    <div class="back-button">
+      <a href="{% url 'index' %}" class="button secondary">Назад к списку групп</a>
+    </div>
+  </main>
+</body>
+</html>

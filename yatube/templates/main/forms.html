@@ -1,0 +1,44 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Форма обратной связи — Truth News</title>
+    <link rel="stylesheet" href="{% static 'yatube/css/styles.css' %}">
+</head>
+<body>
+    {% include "main/includes/header.html" %}
+
+    <div class="container">
+        <h1>Контактные сообщения</h1>
+        {% if contacts %}
+        <ul class="contact-list">
+            {% for cont in contacts %}
+                <li class="contact-item">
+                    <h3>{{ cont.name }}</h3>
+                    <p><strong>Email:</strong> {{ cont.email }}</p>
+                    <p>{{ cont.text }}</p>
+                </li>
+            {% endfor %}
+        </ul>
+        {% else %}
+            <p>Пока нет сообщений.</p>
+        {% endif %}
+
+        <hr>
+
+        <h2>Форма обратной связи</h2>
+        <form method="post" class="contact-form">
+            {% csrf_token %}
+            <div class="form-fields">
+                {{ form.as_p }}
+            </div>
+            <button type="submit" class="button primary">Отправить</button>
+        </form>
+        
+        <div class="back-button">
+            <a href="/" class="button">← Назад на главную</a>
+        </div>
+</body>
+</html>

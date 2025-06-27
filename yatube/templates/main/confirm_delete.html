@@ -1,0 +1,21 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Подтверждение удаления</title>
+  <link rel="stylesheet" href="{% static 'yatube/css/styles.css' %}">
+</head>
+<body>
+  <main class="container">
+    <h1>Подтверждение удаления</h1>
+    <p class="intro">Вы уверены, что хотите удалить группу "<strong>{{ group.name }}</strong>"?</p>
+
+    <form method="post">
+      {% csrf_token %}
+      <button type="submit" class="button danger">Да, удалить</button>
+      <a href="/" class="button secondary">Отмена</a>
+    </form>
+  </main>
+</body>
+</html>

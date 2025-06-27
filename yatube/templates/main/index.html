@@ -1,0 +1,85 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Truth News — Главная</title>
+    <link rel="stylesheet" href="{% static 'yatube/css/styles.css' %}">
+</head>
+<body>
+    {% include "main/includes/header.html" %}
+
+    <div class="container">
+        <p class="intro">Добро пожаловать на <strong>Truth News</strong> — источник проверенной информации!</p>
+
+        <!-- Кнопка перехода -->
+        <div class="actions">
+            <a href="/orders/" class="button primary">Перейти к заказам</a>
+        </div>
+
+        <!-- Поисковая форма -->
+        <form method="get" action="{% url 'index' %}" class="search-form">
+            <label for="author">Поиск по автору:</label>
+            <input type="text" id="author" name="author" placeholder="Введите имя автора" value="{{ request.GET.author }}">
+            <button type="submit" class="button">Поиск</button>
+        </form>
+
+        <!-- Список групп -->
+        <h2>Список групп:</h2>
+        <ul class="group-list">
+            {% for group in groups %}
+            <li class="group-item">
+                <h3>{{ group.name }}</h3>
+                <p>{{ group.description }}</p>
+                <p><em>Автор: {{ group.user_name }}</em></p>
+                {% if group.image %}
+                    <img src="{{ group.image.url }}" alt="Фото группы">
+                {% endif %}
+
+                <div class="button-group">
+                    <a href="{% url 'group_detail' group.id %}" class="button">Комментарии</a>
+                    {% if group.user == request.user %}
+                        <a href="{% url 'delete_group' group.id %}" class="button danger">Удалить</a>
+                        <a href="{% url 'edit_group' group.id %}" class="button warning">Изменить</a>
+                    {% endif %}
+                </div>
+            </li>
+            {% endfor %}
+        </ul>
+
+        <!-- Пагинация -->
+        <div class="pagination">
+            <span class="step-links">
+                {% if groups.has_previous %}
+                    <a href="?page=1{% if request.GET.author %}&author={{ request.GET.author }}{% endif %}">&laquo; первая</a>
+                    <a href="?page={{ groups.previous_page_number }}{% if request.GET.author %}&author={{ request.GET.author }}{% endif %}">предыдущая</a>
+                {% endif %}
+
+                <span class="current">
+                    Страница {{ groups.number }} из {{ groups.paginator.num_pages }}
+                </span>
+
+                {% if groups.has_next %}
+                    <a href="?page={{ groups.next_page_number }}{% if request.GET.author %}&author={{ request.GET.author }}{% endif %}">следующая</a>
+                    <a href="?page={{ groups.paginator.num_pages }}{% if request.GET.author %}&author={{ request.GET.author }}{% endif %}">последняя &raquo;</a>
+                {% endif %}
+            </span>
+        </div>
+
+        {% if user.is_authenticated %}
+        <h2>Добавить новую группу</h2>
+        <form method="post" enctype="multipart/form-data" class="add-form">
+            {% csrf_token %}
+            <div class="form-fields">
+                {{ form.as_p }}
+            </div>
+            <button type="submit" class="button primary">Добавить</button>
+        </form>
+
+        <div class="actions">
+            <a href="{% url 'send_form' %}" class="button secondary">Отправить отзыв</a>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>
