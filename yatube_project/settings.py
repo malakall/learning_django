@@ -40,9 +40,6 @@ LOGIN_REDIRECT_URL = "/"  # Куда редиректить после вход�
 LOGOUT_REDIRECT_URL = "/"  # Куда редиректить после выхода
 LOGIN_URL = "/login/"  # Страница логина
 
-# куда загружать фотки, картинки добавоенные пользователем
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media') 
 
 
 CACHES = {
@@ -177,6 +174,10 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
+
+# куда загружать фотки, картинки добавоенные пользователем
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media') 
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
